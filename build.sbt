@@ -13,4 +13,6 @@ libraryDependencies ++= Seq(
   javaWs
 )
 
+libraryDependencies += "org.hibernate" % "hibernate-entitymanager" % "4.3.7.Final"
+
 libraryDependencies += "org.hibernate" % "hibernate-core" % "4.3.7.Final"
