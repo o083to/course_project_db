@@ -1,8 +1,9 @@
-package models;
+package models.entity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
+import play.db.jpa.JPA;
 
 /**
  * Сотрудник
@@ -12,18 +13,17 @@ import java.util.List;
 @Entity
 @Table(name = "employees")
 @SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq")
-public class Employee {
+public class EmployeeEntity {
 
     private long id;
     private String lastName;
     private String firstName;
     private String middleName;
-    private Employee manager;
     private Date hireDate;
     private String position;
-    private Department department;
-    private List<Salary> salaries;
-    private List<Trip> trips;
+    private DepartmentEntity department;
+//    private List<Salary> salaries;
+//    private List<Trip> trips;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
@@ -36,7 +36,7 @@ public class Employee {
         this.id = id;
     }
 
-    @Column(name = "last_name", length = 20, nullable = false)
+    @Column(name = "last_name", length = 50, nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -45,7 +45,7 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    @Column(name = "first_name", length = 20, nullable = false)
+    @Column(name = "first_name", length = 50, nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -54,23 +54,13 @@ public class Employee {
         this.firstName = firstName;
     }
 
-    @Column(name = "middle_name", length = 20, nullable = true)
+    @Column(name = "middle_name", length = 50, nullable = true)
     public String getMiddleName() {
         return middleName;
     }
 
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id", referencedColumnName = "employee_id")
-    public Employee getManager() {
-        return manager;
-    }
-
-    public void setManager(Employee manager) {
-        this.manager = manager;
     }
 
     @Column(name = "hire_date", nullable = false)
@@ -82,7 +72,7 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    @Column(name = "position", length = 20, nullable = false)
+    @Column(name = "position", length = 50, nullable = false)
     public String getPosition() {
         return position;
     }
@@ -93,21 +83,25 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
-    public Department getDepartment() {
+    public DepartmentEntity getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(DepartmentEntity department) {
         this.department = department;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee_id")
-    public List<Salary> getSalaries() {
-        return salaries;
-    }
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee_id")
+//    public List<Salary> getSalaries() {
+//        return salaries;
+//    }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee_id")
-    public List<Trip> getTrips() {
-        return trips;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee_id")
+//    public List<Trip> getTrips() {
+//        return trips;
+//    }
+
+    public static EmployeeEntity findById(long id) {
+        return JPA.em().find(EmployeeEntity.class, id);
     }
 }

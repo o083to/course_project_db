@@ -1,5 +1,7 @@
 package models;
 
+import models.entity.EmployeeEntity;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ import java.util.Date;
 public class Trip {
 
     private long id;
-    private Employee employee;
+    private EmployeeEntity employeeEntity;
     private Date startDate;
     private Date endDate;
     private String location;
@@ -32,12 +34,12 @@ public class Trip {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
-    public Employee getEmployee() {
-        return employee;
+    public EmployeeEntity getEmployeeEntity() {
+        return employeeEntity;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
+        this.employeeEntity = employeeEntity;
     }
 
     @Column(name = "start_date", nullable = false)
