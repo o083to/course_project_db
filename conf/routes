@@ -3,10 +3,29 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                               controllers.EmployeeController.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                   controllers.Assets.at(path="/public", file)
 
 # Employee info
-GET     /employees/:id           controllers.Application.employeeInfo(id:Long)
+GET     /employees/:id                  controllers.EmployeeController.employeeInfo(id:Long)
+
+# Salary
+GET     /employees/:id/salaries         controllers.EmployeeController.employeeSalaries(id:Long)
+
+# Vacations
+GET     /employees/:id/vacations        controllers.EmployeeController.employeeVacations(id:Long)
+
+# Trips
+GET     /employees/:id/trips            controllers.EmployeeController.employeeTrips(id:Long)
+
+# Projects
+GET     /employees/:id/projects         controllers.EmployeeController.employeeProjects(id:Long)
+
+# Add Salary
+GET     /employees/:id/salaries/new     controllers.SalaryController.create(id:Long)
+POST    /employees/:id/salaries         controllers.SalaryController.save(id:Long)
+
+# Delete Salary
+GET    /employees/:eid/salaries/:sid/delete    controllers.SalaryController.delete(eid:Long, sid:Long)

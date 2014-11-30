@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Проект
@@ -13,15 +14,24 @@ import java.util.Date;
 @SequenceGenerator(name = "projects_seq", sequenceName = "projects_seq")
 public class Project {
 
-    private long id;
-    private String name;
-    private Date startDate;
-    private Date endDate;
-    private Customer customer;
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
     @Column(name = "project_id")
+    private long id;
+
+    @Column(name = "name", length = 200, nullable = false)
+    private String name;
+
+//    private Date startDate;
+//    private Date endDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+    private List<ProjectAssignment> assignments;
+
     public long getId() {
         return id;
     }
@@ -30,40 +40,33 @@ public class Project {
         this.id = id;
     }
 
-    @Column(name = "name", length = 100, nullable = false)
+    public List<ProjectAssignment> getAssignments() {
+        return assignments;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    @Column(name = "start_date", nullable = false)
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    @Column(name = "end_date", nullable = false)
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+//    @Column(name = "start_date", nullable = false)
+//    public Date getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(Date startDate) {
+//        this.startDate = startDate;
+//    }
+//
+//    @Column(name = "end_date", nullable = false)
+//    public Date getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(Date endDate) {
+//        this.endDate = endDate;
+//    }
 }

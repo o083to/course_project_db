@@ -1,0 +1,23 @@
+@(id: Long, section: String)(content: Html)
+
+@menuItems = @{Seq(
+    ("info", "Сведения", routes.EmployeeController.employeeInfo(id)),
+    ("salary", "Зарплата", routes.EmployeeController.employeeSalaries(id)),
+    ("vacations", "Отпуска", routes.EmployeeController.employeeVacations(id)),
+    ("trips", "Командировки", routes.EmployeeController.employeeTrips(id)),
+    ("projects", "Проекты", routes.EmployeeController.employeeProjects(id))
+)}
+
+<ul class="nav nav-tabs">
+    @menuItems.map {
+        case (key, title, _) if key == section => {
+            <li class="active">
+                <a href="#">@title</a>
+            </li>
+        }
+        case (key, title, url) => {
+            <li><a href="@url">@title</a></li>
+        }
+    }
+</ul>
+@content

@@ -1,0 +1,20 @@
+@(employee:Employee)
+
+@employee_navigation(employee.getId(), "vacations") {
+<table>
+    <thead>
+    <td>Начало</td>
+    <td>Конец</td>
+    <td>Причина</td>
+    </thead>
+    <tbody>
+    @for(vacation <- employee.getVacations()) {
+    <tr>
+        <td>@vacation.getStartDate().format("dd MM yy")</td>
+        <td>@vacation.getEndDate().format("dd MM yy")</td>
+        <td>@vacation.getReason()</td>
+    </tr>
+    }
+    </tbody>
+</table>
+}

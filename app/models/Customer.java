@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Заказчик
@@ -12,13 +13,20 @@ import javax.persistence.*;
 @SequenceGenerator(name = "customers_seq", sequenceName = "customers_seq")
 public class Customer {
 
-    private long id;
-    private String name;
-    private String location;
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customers_seq")
     @Column(name = "customer_id")
+    private long id;
+
+    @Column(name = "name", length = 200, nullable = false)
+    private String name;
+
+    @Column(name = "location", length = 100, nullable = false)
+    private String location;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    private List<Project> projects;
+
     public long getId() {
         return id;
     }
@@ -27,21 +35,11 @@ public class Customer {
         this.id = id;
     }
 
-    @Column(name = "name", length = 100, nullable = false)
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Column(name = "location", length = 100, nullable = false)
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 }

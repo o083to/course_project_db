@@ -1,6 +1,4 @@
-package models.entity;
-
-import models.entity.EmployeeEntity;
+package models;
 
 import javax.persistence.*;
 
@@ -12,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "departments")
 @SequenceGenerator(name = "departments_seq", sequenceName = "departments_seq")
-public class DepartmentEntity {
+public class Department {
 
     private long id;
     private String name;

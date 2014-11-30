@@ -1,6 +1,7 @@
 package models;
 
-import models.entity.EmployeeEntity;
+import play.data.format.Formats;
+import play.db.jpa.JPA;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,17 +14,34 @@ import java.util.Date;
 @Entity
 @Table(name = "salary")
 @SequenceGenerator(name = "salary_seq", sequenceName = "salary_seq")
-public class Salary {
-
-    private long id;
-    private EmployeeEntity employeeEntity;
-    private int value;
-    private Date startDate;
-    private Date endDate;
+public class Salary extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "salary_seq")
     @Column(name = "salary_id")
+    private long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    @Column(name = "value", nullable = false)
+//    @Constraints.Required
+    private int value;
+
+    @Column(name = "start_date", nullable = false)
+//    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
+    private Date startDate;
+
+    @Column(name = "end_date", nullable = true)
+    private Date endDate;
+
+    private static final String SET_LAST_END_DATE =
+            "update salary\n" +
+            "set end_date = :end_date\n" +
+            "where end_date is null";
+
     public long getId() {
         return id;
     }
@@ -32,17 +50,14 @@ public class Salary {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
-    public EmployeeEntity getEmployeeEntity() {
-        return employeeEntity;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
-        this.employeeEntity = employeeEntity;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    @Column(name = "value", nullable = false)
     public int getValue() {
         return value;
     }
@@ -51,7 +66,6 @@ public class Salary {
         this.value = value;
     }
 
-    @Column(name = "start_date", nullable = false)
     public Date getStartDate() {
         return startDate;
     }
@@ -60,12 +74,14 @@ public class Salary {
         this.startDate = startDate;
     }
 
-    @Column(name = "end_date", nullable = true)
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public static void setLastEndDate(Date endDate, long employeeId) {
+        Query query = JPA.em().createNativeQuery(SET_LAST_END_DATE);
+        query.setParameter("end_date", endDate);
+        query.executeUpdate();
     }
+
 }

@@ -1,29 +1,29 @@
-@import models.dao._
-
 @(employee:Employee)
 
-<p>
-    1. Фамилия:
-    @employee.getLastName()
-    <br>
-    2. Имя:
-    @employee.getFirstName()
-    <br>
-    3. Отчество:
-    @employee.getMiddleName()
-    <br>
-    4. Руководитель:
-    @employee.getManager().getLastName()
-    <br>
-    5. Должность:
-    @employee.getPosition()
-    <br>
-    6. Дата приёма:
-    @employee.getHireDate().format("dd MM yy")
-    <br>
-    7. Стаж:
-    @employee.getExperienceStr()
-    <br>
-    8. Отдел:
-    @employee.getDepartment().getName()
-</p>
+@employee_navigation(employee.getId(), "info") {
+    <p>
+        1. Фамилия:
+        @employee.getLastName()
+        <br>
+        2. Имя:
+        @employee.getFirstName()
+        <br>
+        3. Отчество:
+        @employee.getMiddleName()
+        <br>
+        4. Руководитель:
+        @employee.getManager().getLastName()
+        <br>
+        5. Должность:
+        @employee.getPosition()
+        <br>
+        6. Дата приёма:
+        @employee.getHireDate().format("dd MM yy")
+        <br>
+        7. Стаж:
+        @employee.getExperienceStr()
+        <br>
+        8. Отдел:
+        @employee.getDepartment().getName()
+    </p>
+}
