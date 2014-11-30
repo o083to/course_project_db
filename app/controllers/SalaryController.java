@@ -1,5 +1,6 @@
 package controllers;
 
+import models.BaseEntity;
 import models.Employee;
 import models.Salary;
 import play.mvc.Controller;
@@ -30,7 +31,7 @@ public class SalaryController extends Controller {
             return badRequest(create_salary_form.render(salaryForm, employeeId));
         }
         Salary salary = salaryForm.get();
-        Employee emp = Employee.findById(employeeId);
+        Employee emp = Employee.findById(Employee.class, employeeId);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(salary.getStartDate());
@@ -52,8 +53,11 @@ public class SalaryController extends Controller {
 
     @Transactional
     public static Result delete(long employeeId, long salaryId) {
-        Salary salary = (Salary)Salary.findById(Salary.class, salaryId);
-        salary.delete();
+        Salary salary = BaseEntity.findById(Salary.class, salaryId);
+        if (salary != null) {
+            salary.delete();
+            Salary.deleteLastEndDate(employeeId);
+        }
         return goHome(employeeId);
     }
 

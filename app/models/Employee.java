@@ -19,7 +19,7 @@ import play.db.jpa.JPA;
 @Entity
 @Table(name = "employees")
 @SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq")
-public class Employee {
+public class Employee extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
@@ -127,10 +127,6 @@ public class Employee {
 
     public List<ProjectAssignment> getAssignments() {
         return assignments;
-    }
-
-    public static Employee findById(long id) {
-        return JPA.em().find(Employee.class, id);
     }
 
     public String getExperienceStr() {

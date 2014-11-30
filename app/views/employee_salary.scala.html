@@ -20,11 +20,13 @@
                     }
                 </td>
                 <td>
-                    <a class="btn success" id="delete" href="@routes.SalaryController.delete(employee.getId(), salary.getId())">удалить</a>
+                    <a class="btn success" id="delete"
+                       href="@routes.SalaryController.delete(employee.getId(), salary.getId())">удалить</a>
                 </td>
             </tr>
             }
         </tbody>
     </table>
-    <a class="btn success" id="add" href="@routes.SalaryController.create(employee.getId())">Добавить</a>
+    <a class="btn success" id="add"
+       href="@routes.SalaryController.create(employee.getId())">Добавить</a>
 }

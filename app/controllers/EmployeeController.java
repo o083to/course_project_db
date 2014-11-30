@@ -14,7 +14,7 @@ public class EmployeeController extends Controller {
 
     @Transactional(readOnly=true)
     public static Result employeeInfo(long id) {
-        Employee emp = Employee.findById(id);
+        Employee emp = Employee.findById(Employee.class, id);
         if (emp == null) {
             return notFound();
         } else {
@@ -24,7 +24,7 @@ public class EmployeeController extends Controller {
 
     @Transactional(readOnly=true)
     public static Result employeeSalaries(long id) {
-        Employee emp = Employee.findById(id);
+        Employee emp = Employee.findById(Employee.class, id);
         if (emp == null) {
             return notFound();
         } else {
@@ -34,7 +34,7 @@ public class EmployeeController extends Controller {
 
     @Transactional(readOnly=true)
     public static Result employeeVacations(long id) {
-        Employee emp = Employee.findById(id);
+        Employee emp = Employee.findById(Employee.class, id);
         if (emp == null) {
             return notFound();
         } else {
@@ -44,7 +44,7 @@ public class EmployeeController extends Controller {
 
     @Transactional(readOnly=true)
     public static Result employeeTrips(long id) {
-        Employee emp = Employee.findById(id);
+        Employee emp = Employee.findById(Employee.class, id);
         if (emp == null) {
             return notFound();
         } else {
@@ -54,7 +54,7 @@ public class EmployeeController extends Controller {
 
     @Transactional(readOnly=true)
     public static Result employeeProjects(long id) {
-        Employee emp = Employee.findById(id);
+        Employee emp = Employee.findById(Employee.class, id);
         if (emp == null) {
             return notFound();
         } else {

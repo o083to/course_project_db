@@ -15,7 +15,7 @@ public abstract class BaseEntity {
         JPA.em().remove(this);
     }
 
-    public static Object findById(Class entityClass, long id) {
+    public static <E> E findById(Class<E> entityClass, long id) {
         return JPA.em().find(entityClass, id);
     }
 

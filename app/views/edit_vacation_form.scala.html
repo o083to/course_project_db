@@ -1,0 +1,23 @@
+@(vacationForm: Form[Vacation], employeeId: Long, vacationId: Long)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@form(routes.VacationsController.update(employeeId, vacationId)) {
+
+    @if(vacationForm.hasGlobalErrors) {
+        <p class="error">
+            @vacationForm.globalError.message
+        </p>
+    }
+
+    <fieldset>
+        @inputText(vacationForm("startDate"), '_label -> "Начало")
+        @inputText(vacationForm("endDate"), '_label -> "Конец")
+        @select(vacationForm("reason"), options(("очередной", "очередной"), ("внеочередной", "внеочередной")) , '_label -> "Причина")
+    </fieldset>
+    <div class="actions">
+        <input type="submit" value="Сохранить" class="btn primary">
+    </div>
+}

@@ -29,3 +29,14 @@ POST    /employees/:id/salaries         controllers.SalaryController.save(id:Lon
 
 # Delete Salary
 GET    /employees/:eid/salaries/:sid/delete    controllers.SalaryController.delete(eid:Long, sid:Long)
+
+# Add Vacation
+GET     /employees/:id/vacations/new    controllers.VacationsController.create(id:Long)
+POST    /employees/:id/vacations        controllers.VacationsController.save(id:Long)
+
+# Delete Vacation
+GET     /employees/:eid/vacations/:vid/delete    controllers.VacationsController.delete(eid:Long, vid:Long)
+
+# Edit Vacation
+GET     /employees/:eid/vacations/:vid  controllers.VacationsController.edit(eid:Long, vid:Long)
+POST    /employees/:eid/vacations/:vid  controllers.VacationsController.update(eid:Long, vid:Long)

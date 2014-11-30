@@ -1,6 +1,7 @@
 package models;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints;
 import play.db.jpa.JPA;
 
 import javax.persistence.*;
@@ -26,11 +27,11 @@ public class Salary extends BaseEntity {
     private Employee employee;
 
     @Column(name = "value", nullable = false)
-//    @Constraints.Required
+    @Constraints.Required
     private int value;
 
     @Column(name = "start_date", nullable = false)
-//    @Constraints.Required
+    @Constraints.Required
     @Formats.DateTime(pattern="dd-MM-yy")
     private Date startDate;
 
@@ -41,6 +42,20 @@ public class Salary extends BaseEntity {
             "update salary\n" +
             "set end_date = :end_date\n" +
             "where end_date is null";
+
+    private static final String DELETE_LAST_END_DATE =
+            "update SALARY\n" +
+            "set end_date = null\n" +
+            "where \n" +
+            "   employee_id = :emp_id\n" +
+            "   and end_date = (\n" +
+            "       select\n" +
+            "           max(end_date)\n" +
+            "       from\n" +
+            "           salary\n" +
+            "       where\n" +
+            "           employee_id = :emp_id\n" +
+            "       )";
 
     public long getId() {
         return id;
@@ -81,6 +96,12 @@ public class Salary extends BaseEntity {
     public static void setLastEndDate(Date endDate, long employeeId) {
         Query query = JPA.em().createNativeQuery(SET_LAST_END_DATE);
         query.setParameter("end_date", endDate);
+        query.executeUpdate();
+    }
+
+    public static void deleteLastEndDate(long employeeId) {
+        Query query = JPA.em().createNativeQuery(DELETE_LAST_END_DATE);
+        query.setParameter("emp_id", employeeId);
         query.executeUpdate();
     }
 

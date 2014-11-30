@@ -1,20 +1,30 @@
 @(employee:Employee)
 
 @employee_navigation(employee.getId(), "vacations") {
-<table>
-    <thead>
-    <td>Начало</td>
-    <td>Конец</td>
-    <td>Причина</td>
-    </thead>
-    <tbody>
-    @for(vacation <- employee.getVacations()) {
-    <tr>
-        <td>@vacation.getStartDate().format("dd MM yy")</td>
-        <td>@vacation.getEndDate().format("dd MM yy")</td>
-        <td>@vacation.getReason()</td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <td>Начало</td>
+            <td>Конец</td>
+            <td>Причина</td>
+        </thead>
+        <tbody>
+        @for(vacation <- employee.getVacations()) {
+        <tr>
+            <td>@vacation.getStartDate().format("dd MM yy")</td>
+            <td>@vacation.getEndDate().format("dd MM yy")</td>
+            <td>@vacation.getReason()</td>
+            <td>
+                <a class="btn danger" id="delete"
+                   href="@routes.VacationsController.delete(employee.getId(), vacation.getId())">удалить</a>
+            </td>
+            <td>
+                <a class="btn danger" id="edit"
+                   href="@routes.VacationsController.edit(employee.getId(), vacation.getId())">изменить</a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+    <a class="btn success" id="add"
+       href="@routes.VacationsController.create(employee.getId())">Добавить</a>
 }

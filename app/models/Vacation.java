@@ -1,5 +1,8 @@
 package models;
 
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,7 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "vacations")
 @SequenceGenerator(name = "vacations_seq", sequenceName = "vacations_seq")
-public class Vacation {
+public class Vacation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vacations_seq")
@@ -23,13 +26,18 @@ public class Vacation {
     private Employee employee;
 
     @Column(name = "start_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
     private Date startDate;
 
     @Column(name = "end_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
     private Date endDate;
 
     // todo: Enum?
     @Column(name = "reason", length = 50, nullable = false)
+    @Constraints.Required
     private String reason;
 
     public long getId() {
@@ -44,15 +52,31 @@ public class Vacation {
         return employee;
     }
 
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public Date getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {
         return endDate;
     }
 
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     public String getReason() {
         return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }
