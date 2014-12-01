@@ -19,8 +19,18 @@
                     }
                 }
             </td>
+            <td>
+                <a class="btn danger" id="delete"
+                   href="@routes.TripsController.delete(employee.getId(), trip.getId())">удалить</a>
+            </td>
+            <td>
+                <a class="btn danger" id="edit"
+                   href="@routes.TripsController.edit(employee.getId(), trip.getId())">изменить</a>
+            </td>
         </tr>
         }
     </tbody>
 </table>
+<a class="btn success" id="add"
+   href="@routes.TripsController.create(employee.getId())">Добавить</a>
 }

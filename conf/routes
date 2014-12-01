@@ -40,3 +40,14 @@ GET     /employees/:eid/vacations/:vid/delete    controllers.VacationsController
 # Edit Vacation
 GET     /employees/:eid/vacations/:vid  controllers.VacationsController.edit(eid:Long, vid:Long)
 POST    /employees/:eid/vacations/:vid  controllers.VacationsController.update(eid:Long, vid:Long)
+
+# Add Trip
+GET     /employees/:id/trips/new        controllers.TripsController.create(id:Long)
+POST    /employees/:id/trips            controllers.TripsController.save(id:Long)
+
+# Delete Trip
+GET     /employees/:eid/trips/:tid/delete       controllers.TripsController.delete(eid:Long, tid:Long)
+
+# Edit Trip
+GET     /employees/:eid/trips/:tid      controllers.TripsController.edit(eid:Long, tid:Long)
+POST    /employees/:eid/trips/:tid      controllers.TripsController.update(eid:Long, tid:Long)

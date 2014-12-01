@@ -1,0 +1,23 @@
+@(tripForm: Form[Trip], employeeId: Long)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@form(routes.TripsController.save(employeeId)) {
+
+    @if(tripForm.hasGlobalErrors) {
+        <p class="error">
+            @tripForm.globalError.message
+        </p>
+    }
+
+    <fieldset>
+        @inputText(tripForm("startDate"), '_label -> "Начало")
+        @inputText(tripForm("endDate"), '_label -> "Конец")
+        @inputText(tripForm("location"), '_label -> "Место")
+    </fieldset>
+    <div class="actions">
+        <input type="submit" value="Добавить" class="btn primary">
+    </div>
+}

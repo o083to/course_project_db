@@ -1,5 +1,8 @@
 package models;
 
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,7 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "trips")
 @SequenceGenerator(name = "trips_seq", sequenceName = "trips_seq")
-public class Trip {
+public class Trip extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trips_seq")
@@ -23,12 +26,17 @@ public class Trip {
     private Employee employee;
 
     @Column(name = "start_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
     private Date startDate;
 
     @Column(name = "end_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
     private Date endDate;
 
     @Column(name = "location", length = 100, nullable = false)
+    @Constraints.Required
     private String location;
 
     public long getId() {
@@ -43,15 +51,31 @@ public class Trip {
         return employee;
     }
 
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public Date getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {
         return endDate;
     }
 
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     public String getLocation() {
         return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
