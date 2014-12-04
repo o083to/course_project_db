@@ -51,3 +51,7 @@ GET     /employees/:eid/trips/:tid/delete       controllers.TripsController.dele
 # Edit Trip
 GET     /employees/:eid/trips/:tid      controllers.TripsController.edit(eid:Long, tid:Long)
 POST    /employees/:eid/trips/:tid      controllers.TripsController.update(eid:Long, tid:Long)
+
+# Add Assignment
+GET     /employees/:id/projects/new     controllers.AssignmentsController.create(id:Long)
+POST    /employees/:id/projects         controllers.AssignmentsController.save(id:Long)

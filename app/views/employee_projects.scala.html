@@ -1,26 +1,28 @@
 @(employee:Employee)
 
 @employee_navigation(employee.getId(), "projects") {
-<table>
-    <thead>
-    <td>Проект</td>
-    <td>Заказчик</td>
-    <td>Расположение</td>
-    <td>Роль</td>
-    <td>Начало</td>
-    <td>Конец</td>
-    </thead>
-    <tbody>
-    @for(assignment <- employee.getAssignments()) {
-    <tr>
-        <td>@assignment.getProject().getName()</td>
-        <td>@assignment.getProject().getCustomer().getName()</td>
-        <td>@assignment.getProject().getCustomer().getLocation()</td>
-        <td>@assignment.getRole()</td>
-        <td>@assignment.getStartDate().format("dd MM yy")</td>
-        <td>@assignment.getEndDate().format("dd MM yy")</td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <td>Проект</td>
+            <td>Заказчик</td>
+            <td>Расположение</td>
+            <td>Роль</td>
+            <td>Начало</td>
+            <td>Конец</td>
+        </thead>
+        <tbody>
+        @for(assignment <- employee.getAssignments()) {
+            <tr>
+                <td>@assignment.getProject().getName()</td>
+                <td>@assignment.getProject().getCustomer().getName()</td>
+                <td>@assignment.getProject().getCustomer().getLocation()</td>
+                <td>@assignment.getRole()</td>
+                <td>@assignment.getStartDate().format("dd MM yy")</td>
+                <td>@assignment.getEndDate().format("dd MM yy")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <a class="btn success" id="add"
+        href="@routes.AssignmentsController.create(employee.getId())">Добавить</a>
 }

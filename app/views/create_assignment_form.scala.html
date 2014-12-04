@@ -1,0 +1,32 @@
+@(assignmentForm: Form[ProjectAssignment], employeeId: Long)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@form(routes.AssignmentsController.save(employeeId)) {
+
+    @if(assignmentForm.hasGlobalErrors) {
+        <p class="error">
+            @assignmentForm.globalError.message
+        </p>
+    }
+
+    <fieldset>
+        @select(
+            assignmentForm("project.id"),
+            options(Project.getAllProjectsAsOptions),
+            '_label -> "Проект"
+        )
+        @inputText(assignmentForm("startDate"), '_label -> "Начало")
+        @inputText(assignmentForm("endDate"), '_label -> "Конец")
+        @select(
+            assignmentForm("role"),
+            options(ProjectAssignment.getRolesAsOptions),
+            '_label -> "Роль"
+        )
+    </fieldset>
+    <div class="actions">
+        <input type="submit" value="Добавить" class="btn primary">
+    </div>
+}
