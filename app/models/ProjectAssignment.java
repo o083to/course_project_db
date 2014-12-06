@@ -15,24 +15,26 @@ import java.util.Map;
 
 @Entity
 @Table(name = "project_assignments")
-@IdClass(AssignmentPK.class)
+@SequenceGenerator(name = "assignment_seq", sequenceName = "assignment_seq")
 public class ProjectAssignment extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assignment_seq")
+    @Column(name = "assignment_id")
+    private long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @Id
     @Column(name = "start_date", nullable = false)
     @Constraints.Required
     @Formats.DateTime(pattern="dd-MM-yy")
-    private Date start_date;
+    private Date startDate;
 
     @Column(name = "end_date", nullable = false)
     @Constraints.Required
@@ -55,6 +57,14 @@ public class ProjectAssignment extends BaseEntity {
         put("Тестировщик", "Тестировщик");
     }};
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -72,11 +82,11 @@ public class ProjectAssignment extends BaseEntity {
     }
 
     public Date getStartDate() {
-        return start_date;
+        return startDate;
     }
 
     public void setStartDate(Date startDate) {
-        this.start_date = startDate;
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {

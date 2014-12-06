@@ -47,4 +47,44 @@ public class AssignmentsController extends Controller {
         assignment.save();
         return goHome(employeeId);
     }
+
+    @Transactional
+    public static Result delete(long employeeId, long assignmentId) {
+        ProjectAssignment assignment = BaseEntity.findById(ProjectAssignment.class, assignmentId);
+        if (assignment != null) {
+            assignment.delete();
+        }
+        return goHome(employeeId);
+    }
+
+    @Transactional(readOnly = true)
+    public static Result edit(long employeeId, long assignmentId) {
+        ProjectAssignment assignment = BaseEntity.findById(ProjectAssignment.class, assignmentId);
+        if (assignment == null) {
+            return badRequest();
+        } else {
+            Form<ProjectAssignment> assignmentForm = form(ProjectAssignment.class).fill(assignment);
+            return ok(
+                    edit_assignment_form.render(assignmentForm, employeeId, assignmentId)
+            );
+        }
+    }
+
+    @Transactional
+    public static Result update(long employeeId, long assignmentId) {
+        Form<ProjectAssignment> assignmentForm = form(ProjectAssignment.class).bindFromRequest();
+        if (assignmentForm.hasErrors()) {
+            return badRequest(
+                    edit_assignment_form.render(assignmentForm, employeeId, assignmentId)
+            );
+        }
+        ProjectAssignment assignment = assignmentForm.get();
+        assignment.setId(assignmentId);
+        Employee employee = Employee.findById(Employee.class, employeeId);
+        assignment.setEmployee(employee);
+        Project project = Project.findById(Project.class, assignment.getProject().getId());
+        assignment.setProject(project);
+        assignment.update();
+        return goHome(employeeId);
+    }
 }

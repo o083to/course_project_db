@@ -19,6 +19,14 @@
                 <td>@assignment.getRole()</td>
                 <td>@assignment.getStartDate().format("dd MM yy")</td>
                 <td>@assignment.getEndDate().format("dd MM yy")</td>
+                <td>
+                    <a class="btn danger" id="delete"
+                       href="@routes.AssignmentsController.delete(employee.getId(), assignment.getId())">удалить</a>
+                </td>
+                <td>
+                    <a class="btn danger" id="edit"
+                       href="@routes.AssignmentsController.edit(employee.getId(), assignment.getId())">изменить</a>
+                </td>
             </tr>
         }
         </tbody>

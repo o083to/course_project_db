@@ -16,7 +16,7 @@ import java.util.Map;
 @Entity
 @Table(name = "projects")
 @SequenceGenerator(name = "projects_seq", sequenceName = "projects_seq")
-public class Project {
+public class Project extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
@@ -81,7 +81,7 @@ public class Project {
         LinkedHashMap<String, String> options = new LinkedHashMap<>();
         List<Project> projects = query.getResultList();
         for (Project project : projects) {
-            options.put(String.valueOf(project.id), project.getName());
+            options.put(String.valueOf(project.getId()), project.getName());
         }
         return options;
     }
