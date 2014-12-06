@@ -1,0 +1,19 @@
+@(vacationForm: Form[Vacation])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+<fieldset>
+    @inputText(vacationForm("startDate"), '_label -> "Первый день отпуска", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+    @inputText(vacationForm("endDate"), '_label -> "Последний день отпуска", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+    @select(
+        vacationForm("reason"),
+        options(("очередной", "очередной"), ("внеочередной", "внеочередной")),
+        '_label -> "Вид",
+        '_showConstraints -> false)
+</fieldset>
+
+<div class="actions">
+    <input type="submit" value="OK" class="btn btn-primary">
+</div>

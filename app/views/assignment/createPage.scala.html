@@ -1,0 +1,10 @@
+@(assignmentForm: Form[ProjectAssignment], employeeId: Long)
+
+@import helper._
+
+@main {
+    @form(routes.AssignmentsController.save(employeeId)) {
+        <h1 class="well">Назначить сотрудника на проект</h1>
+        @drawForm(assignmentForm)
+    }
+}

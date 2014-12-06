@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import play.mvc.*;
 
 import views.html.*;
+import views.html.assignment.*;
 
 import static play.data.Form.form;
 
@@ -27,7 +28,7 @@ public class AssignmentsController extends Controller {
     public static Result create(long employeeId) {
         Form<ProjectAssignment> assignmentForm = form(ProjectAssignment.class);
         return ok(
-                create_assignment_form.render(assignmentForm, employeeId)
+                createPage.render(assignmentForm, employeeId)
         );
     }
 
@@ -36,7 +37,7 @@ public class AssignmentsController extends Controller {
         Form<ProjectAssignment> assignmentForm = form(ProjectAssignment.class).bindFromRequest();
         if (assignmentForm.hasErrors()) {
             return badRequest(
-                    create_assignment_form.render(assignmentForm, employeeId)
+                    createPage.render(assignmentForm, employeeId)
             );
         }
         ProjectAssignment assignment = assignmentForm.get();
@@ -65,7 +66,7 @@ public class AssignmentsController extends Controller {
         } else {
             Form<ProjectAssignment> assignmentForm = form(ProjectAssignment.class).fill(assignment);
             return ok(
-                    edit_assignment_form.render(assignmentForm, employeeId, assignmentId)
+                    editPage.render(assignmentForm, employeeId, assignmentId)
             );
         }
     }
@@ -75,7 +76,7 @@ public class AssignmentsController extends Controller {
         Form<ProjectAssignment> assignmentForm = form(ProjectAssignment.class).bindFromRequest();
         if (assignmentForm.hasErrors()) {
             return badRequest(
-                    edit_assignment_form.render(assignmentForm, employeeId, assignmentId)
+                    editPage.render(assignmentForm, employeeId, assignmentId)
             );
         }
         ProjectAssignment assignment = assignmentForm.get();

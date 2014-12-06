@@ -1,0 +1,20 @@
+@(salaryForm: Form[Salary], employeeId: Long)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@main {
+
+    <h1 class="well">Заработная плата</h1>
+
+    @form(routes.SalaryController.save(employeeId)) {
+        <fieldset>
+            @inputText(salaryForm("value"), '_label -> "Размер оклада", '_showConstraints -> false)
+            @inputText(salaryForm("startDate"), '_label -> "Начало действия (ДД-MM-ГГ)", '_showConstraints -> false)
+        </fieldset>
+        <div class="actions">
+            <input type="submit" value="Добавить" class="btn btn-primary">
+        </div>
+    }
+}

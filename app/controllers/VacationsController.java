@@ -8,6 +8,7 @@ import play.db.jpa.Transactional;
 import play.mvc.*;
 
 import views.html.*;
+import views.html.vacation.*;
 
 import static play.data.Form.form;
 
@@ -24,7 +25,7 @@ public class VacationsController extends Controller {
     public static Result create(long employeeId) {
         Form<Vacation> vacationForm = form(Vacation.class);
         return ok(
-                create_vacation_form.render(vacationForm, employeeId)
+                createPage.render(vacationForm, employeeId)
         );
     }
 
@@ -33,7 +34,7 @@ public class VacationsController extends Controller {
         Form<Vacation> vacationForm = form(Vacation.class).bindFromRequest();
         if (vacationForm.hasErrors()) {
             return badRequest(
-                    create_vacation_form.render(vacationForm, employeeId)
+                    createPage.render(vacationForm, employeeId)
             );
         }
         Vacation vacation = vacationForm.get();
@@ -60,7 +61,7 @@ public class VacationsController extends Controller {
         } else {
             Form<Vacation> vacationForm = form(Vacation.class).fill(vacation);
             return ok(
-                    edit_vacation_form.render(vacationForm, employeeId, vacationId)
+                    editPage.render(vacationForm, employeeId, vacationId)
             );
         }
     }
@@ -70,7 +71,7 @@ public class VacationsController extends Controller {
         Form<Vacation> vacationForm = form(Vacation.class).bindFromRequest();
         if (vacationForm.hasErrors()) {
             return badRequest(
-                    edit_vacation_form.render(vacationForm, employeeId, vacationId)
+                    editPage.render(vacationForm, employeeId, vacationId)
             );
         }
         Vacation vacation = vacationForm.get();

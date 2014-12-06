@@ -1,0 +1,10 @@
+@(tripForm: Form[Trip], employeeId: Long)
+
+@import helper._
+
+@main {
+    @form(routes.TripsController.save(employeeId)) {
+        <h1 class="well">Добавить командировку</h1>
+        @drawForm(tripForm)
+    }
+}

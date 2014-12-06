@@ -1,0 +1,10 @@
+@(tripForm: Form[Trip], employeeId: Long, tripId: Long)
+
+@import helper._
+
+@main {
+    @form(routes.TripsController.update(employeeId, tripId)) {
+        <h1 class="well">Редактировать сведения о командировке</h1>
+        @drawForm(tripForm)
+    }
+}

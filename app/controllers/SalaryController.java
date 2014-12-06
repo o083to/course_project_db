@@ -12,6 +12,7 @@ import play.data.*;
 import static play.data.Form.*;
 
 import views.html.*;
+import views.html.salary.*;
 
 import java.util.Calendar;
 
@@ -28,7 +29,7 @@ public class SalaryController extends Controller {
     public static Result save(long employeeId) {
         Form<Salary> salaryForm = form(Salary.class).bindFromRequest();
         if(salaryForm.hasErrors()) {
-            return badRequest(create_salary_form.render(salaryForm, employeeId));
+            return badRequest(createPage.render(salaryForm, employeeId));
         }
         Salary salary = salaryForm.get();
         Employee emp = Employee.findById(Employee.class, employeeId);
@@ -47,7 +48,7 @@ public class SalaryController extends Controller {
     public static Result create(long employeeId) {
         Form<Salary> salaryForm = form(Salary.class);
         return ok(
-                create_salary_form.render(salaryForm, employeeId)
+                createPage.render(salaryForm, employeeId)
         );
     }
 

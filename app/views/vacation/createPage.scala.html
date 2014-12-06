@@ -1,0 +1,11 @@
+@(vacationForm: Form[Vacation], employeeId: Long)
+
+@import helper._
+
+@form(routes.VacationsController.save(employeeId)) {
+
+    @main {
+        <h1 class="well">Добавить сведения об отпуске</h1>
+        @drawForm(vacationForm)
+    }
+}

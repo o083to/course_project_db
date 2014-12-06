@@ -1,0 +1,38 @@
+@(employee:Employee)
+@main {
+    @navigation(employee.getId(), "info") {
+            <div class="well">
+                <b>
+                    @employee.getLastName() @employee.getFirstName() @employee.getMiddleName()
+                </b>
+            </div>
+            <table>
+                <tr>
+                    <td class="name">
+                        Руководитель
+                    </td>
+                    <td>
+                        <a href="@routes.EmployeeController.employeeInfo(employee.getManager().getId())">
+                            @employee.getManager().getLastName()
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">Должность</td>
+                    <td>@employee.getPosition()</td>
+                </tr>
+                <tr>
+                    <td class="name">Дата приёма на работу</td>
+                    <td>@employee.getHireDate().format("dd MM yyyy")</td>
+                </tr>
+                <tr>
+                    <td class="name">Стаж</td>
+                    <td>@employee.getExperienceStr()</td>
+                </tr>
+                <tr>
+                    <td class="name">Отдел</td>
+                    <td>@employee.getDepartment().getName()</td>
+                </tr>
+            </table>
+    }
+}

@@ -1,0 +1,35 @@
+@(employee:Employee)
+
+@main {
+    @navigation(employee.getId(), "salary") {
+        <table>
+            <thead>
+                <td class="name"><b>Размер оклада</b></td>
+                <td class="name"><b>Начало действия</b></td>
+                <td class="name"><b>Конец действия</b></td>
+            </thead>
+            <tbody>
+                @for(salary <- employee.getSalaries()) {
+                <tr>
+                    <td>@salary.getValue()</td>
+                    <td>@salary.getStartDate().format("dd MM yyyy")</td>
+                    <td>
+                        @defining(salary.getEndDate()){ endDate =>
+                            @if(endDate != null){
+                                @endDate.format("dd MM yyyy")
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" id="delete"
+                           href="@routes.SalaryController.delete(employee.getId(), salary.getId())"></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <br>
+        <a class="btn btn-success" id="add"
+           href="@routes.SalaryController.create(employee.getId())">Добавить</a>
+    }
+}

@@ -1,0 +1,26 @@
+@(assignmentForm: Form[ProjectAssignment])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+<fieldset>
+    @select(
+        assignmentForm("project.id"),
+        options(Project.getAllProjectsAsOptions),
+        '_label -> "Проект",
+        '_showConstraints -> false
+    )
+    @inputText(assignmentForm("startDate"), '_label -> "Первый день на проекте", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+    @inputText(assignmentForm("endDate"), '_label -> "Последний день на проекте", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+    @select(
+        assignmentForm("role"),
+        options(ProjectAssignment.getRolesAsOptions),
+        '_label -> "Роль",
+        '_showConstraints -> false
+    )
+</fieldset>
+
+<div class="actions">
+    <input type="submit" value="OK" class="btn btn-primary">
+</div>

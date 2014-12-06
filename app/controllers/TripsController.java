@@ -10,6 +10,7 @@ import play.db.jpa.Transactional;
 import play.mvc.*;
 
 import views.html.*;
+import views.html.trip.*;
 
 import static play.data.Form.form;
 
@@ -26,7 +27,7 @@ public class TripsController extends Controller {
     public static Result create(long employeeId) {
         Form<Trip> tripForm = form(Trip.class);
         return ok(
-                create_trip_form.render(tripForm, employeeId)
+                createPage.render(tripForm, employeeId)
         );
     }
 
@@ -35,7 +36,7 @@ public class TripsController extends Controller {
         Form<Trip> tripForm = form(Trip.class).bindFromRequest();
         if (tripForm.hasErrors()) {
             return badRequest(
-                    create_trip_form.render(tripForm, employeeId)
+                    createPage.render(tripForm, employeeId)
             );
         }
         Trip trip = tripForm.get();
@@ -62,7 +63,7 @@ public class TripsController extends Controller {
         } else {
             Form<Trip> tripForm = form(Trip.class).fill(trip);
             return ok(
-                    edit_trip_form.render(tripForm, employeeId, tripId)
+                    editPage.render(tripForm, employeeId, tripId)
             );
         }
     }
@@ -72,7 +73,7 @@ public class TripsController extends Controller {
         Form<Trip> tripForm = form(Trip.class).bindFromRequest();
         if (tripForm.hasErrors()) {
             return badRequest(
-                    edit_trip_form.render(tripForm, employeeId, tripId)
+                    editPage.render(tripForm, employeeId, tripId)
             );
         }
         Trip trip = tripForm.get();

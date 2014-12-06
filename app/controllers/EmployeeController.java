@@ -5,6 +5,7 @@ import play.db.jpa.Transactional;
 import play.mvc.*;
 
 import views.html.*;
+import views.html.employee.*;
 
 public class EmployeeController extends Controller {
 
@@ -18,7 +19,7 @@ public class EmployeeController extends Controller {
         if (emp == null) {
             return notFound();
         } else {
-            return ok(employee.render(emp));
+            return ok(infoPage.render(emp));
         }
     }
 
@@ -28,7 +29,7 @@ public class EmployeeController extends Controller {
         if (emp == null) {
             return notFound();
         } else {
-            return ok(employee_salary.render(emp));
+            return ok(salaryList.render(emp));
         }
     }
 
@@ -38,7 +39,7 @@ public class EmployeeController extends Controller {
         if (emp == null) {
             return notFound();
         } else {
-            return ok(employee_vacation.render(emp));
+            return ok(vacationsList.render(emp));
         }
     }
 
@@ -48,7 +49,7 @@ public class EmployeeController extends Controller {
         if (emp == null) {
             return notFound();
         } else {
-            return ok(employee_trips.render(emp));
+            return ok(tripsList.render(emp));
         }
     }
 
@@ -58,7 +59,7 @@ public class EmployeeController extends Controller {
         if (emp == null) {
             return notFound();
         } else {
-            return ok(employee_projects.render(emp));
+            return ok(projectsList.render(emp));
         }
     }
 

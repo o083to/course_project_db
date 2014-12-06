@@ -1,0 +1,39 @@
+@(employee:Employee)
+
+@main {
+    @navigation(employee.getId(), "trips") {
+    <table>
+        <thead>
+            <td class="name"><b>Город</b></td>
+            <td class="name"><b>Первый день</b></td>
+            <td class="name"><b>Последний день</b></td>
+        </thead>
+        <tbody>
+            @for(trip <- employee.getTrips()) {
+            <tr>
+                <td>@trip.getLocation()</td>
+                <td>@trip.getStartDate().format("dd MM yyyy")</td>
+                <td>
+                    @defining(trip.getEndDate()){ endDate =>
+                        @if(endDate != null){
+                            @endDate.format("dd MM yyyy")
+                        }
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-danger" id="delete"
+                       href="@routes.TripsController.delete(employee.getId(), trip.getId())"></a>
+                </td>
+                <td>
+                    <a class="btn btn-info" id="edit"
+                       href="@routes.TripsController.edit(employee.getId(), trip.getId())"></a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <br>
+    <a class="btn btn-success" id="add"
+       href="@routes.TripsController.create(employee.getId())">Добавить</a>
+    }
+}

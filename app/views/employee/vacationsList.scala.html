@@ -1,0 +1,33 @@
+@(employee:Employee)
+
+@main {
+    @navigation(employee.getId(), "vacations") {
+        <table>
+            <thead>
+                <td class="name"><b>Начало</b></td>
+                <td class="name"><b>Конец</b></td>
+                <td class="name"><b>Причина</b></td>
+            </thead>
+            <tbody>
+            @for(vacation <- employee.getVacations()) {
+            <tr>
+                <td>@vacation.getStartDate().format("dd MM yyyy")</td>
+                <td>@vacation.getEndDate().format("dd MM yyyy")</td>
+                <td>@vacation.getReason()</td>
+                <td>
+                    <a class="btn btn-danger" id="delete"
+                       href="@routes.VacationsController.delete(employee.getId(), vacation.getId())"></a>
+                </td>
+                <td>
+                    <a class="btn btn-info" id="edit"
+                       href="@routes.VacationsController.edit(employee.getId(), vacation.getId())"></a>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+        <br>
+        <a class="btn btn-success" id="add"
+           href="@routes.VacationsController.create(employee.getId())">Добавить</a>
+    }
+}

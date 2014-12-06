@@ -1,0 +1,15 @@
+@(tripForm: Form[Trip])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+<fieldset>
+    @inputText(tripForm("startDate"), '_label -> "Первый день командировки", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+    @inputText(tripForm("endDate"), '_label -> "Последний день командировки", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+    @inputText(tripForm("location"), '_label -> "Город", '_showConstraints -> false)
+</fieldset>
+
+<div class="actions">
+    <input type="submit" value="OK" class="btn btn-primary">
+</div>
