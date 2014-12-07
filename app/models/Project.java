@@ -1,5 +1,7 @@
 package models;
 
+import play.data.format.Formats;
+import play.data.validation.Constraints;
 import play.db.jpa.JPA;
 
 import javax.persistence.*;
@@ -24,10 +26,18 @@ public class Project extends BaseEntity {
     private long id;
 
     @Column(name = "name", length = 200, nullable = false)
+    @Constraints.Required
     private String name;
 
-//    private Date startDate;
-//    private Date endDate;
+    @Column(name = "start_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
+    private Date startDate;
+
+    @Column(name = "end_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
+    private Date endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
@@ -37,6 +47,13 @@ public class Project extends BaseEntity {
     private List<ProjectAssignment> assignments;
 
     private static final String SQL_GET_ALL_PROJECTS = "select * from projects order by name";
+    private static final String SQL_GET_PROJECTS_WITH_FILTER = "select p.* \n" +
+                                                                "from \n" +
+                                                                "projects p, customers c \n" +
+                                                                "where p.customer_id = c.customer_id \n" +
+                                                                "and upper(p.name) like upper(:projectName) \n" +
+                                                                "and upper(c.name) like upper(:customerName) \n" +
+                                                                "order by p.start_date desc";
 
     public long getId() {
         return id;
@@ -54,27 +71,33 @@ public class Project extends BaseEntity {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
 
-//    @Column(name = "start_date", nullable = false)
-//    public Date getStartDate() {
-//        return startDate;
-//    }
-//
-//    public void setStartDate(Date startDate) {
-//        this.startDate = startDate;
-//    }
-//
-//    @Column(name = "end_date", nullable = false)
-//    public Date getEndDate() {
-//        return endDate;
-//    }
-//
-//    public void setEndDate(Date endDate) {
-//        this.endDate = endDate;
-//    }
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public static Map<String, String> getAllProjectsAsOptions() {
         Query query = JPA.em().createNativeQuery(SQL_GET_ALL_PROJECTS, Project.class);
@@ -84,5 +107,12 @@ public class Project extends BaseEntity {
             options.put(String.valueOf(project.getId()), project.getName());
         }
         return options;
+    }
+
+    public static List<Project> getList(String projectName, String customerName) {
+        return JPA.em().createNativeQuery(SQL_GET_PROJECTS_WITH_FILTER, Project.class)
+                .setParameter("projectName", formatForLike(projectName))
+                .setParameter("customerName", formatForLike(customerName))
+                .getResultList();
     }
 }

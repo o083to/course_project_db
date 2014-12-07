@@ -11,8 +11,8 @@
             <tbody>
             @for(vacation <- employee.getVacations()) {
             <tr>
-                <td>@vacation.getStartDate().format("dd MM yyyy")</td>
-                <td>@vacation.getEndDate().format("dd MM yyyy")</td>
+                <td>@vacation.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
+                <td>@vacation.getEndDate().format(views.Constants.UI_DATE_FORMAT)</td>
                 <td>@vacation.getReason()</td>
                 <td>
                     <a class="btn btn-danger" id="delete"

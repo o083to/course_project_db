@@ -1,0 +1,10 @@
+@(customerForm: Form[Customer], customerId: Long)
+
+@import helper._
+
+@main {
+    @form(routes.CustomersController.update(customerId)) {
+        <h1 class="well">Редактировать сведения об организации-заказчике</h1>
+        @drawForm(customerForm)
+    }
+}

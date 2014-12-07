@@ -18,8 +18,8 @@
                     <td>@assignment.getProject().getCustomer().getName()</td>
                     <td>@assignment.getProject().getCustomer().getLocation()</td>
                     <td>@assignment.getRole()</td>
-                    <td>@assignment.getStartDate().format("dd MM yyyy")</td>
-                    <td>@assignment.getEndDate().format("dd MM yyyy")</td>
+                    <td>@assignment.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
+                    <td>@assignment.getEndDate().format(views.Constants.UI_DATE_FORMAT)</td>
                     <td>
                         <a class="btn btn-danger" id="delete"
                            href="@routes.AssignmentsController.delete(employee.getId(), assignment.getId())"></a>

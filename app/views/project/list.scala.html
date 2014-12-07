@@ -1,0 +1,42 @@
+@(projectName: String, customerName: String)
+
+@main {
+    <form action="@routes.ProjectsController.projectsList(projectName, customerName)" method="GET">
+        <input type="search" id="pf" name="projectFilter" value="@projectName"
+                placeholder="Поиск по названию проекта ..."><br>
+        <input type="search" id="cf" name="customerFilter" value="@customerName"
+               placeholder="Поиск по организации ..."><br>
+        <input type="submit" id="fs" value="OK" class="btn btn-primary">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <td class="name"><b>Название проекта</b></td>
+                <td class="name"><b>Заказчик</b></td>
+                <td class="name"><b>Начало проекта</b></td>
+                <td class="name"><b>Окончание проекта</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @for(project <- Project.getList(projectName, customerName)) {
+                <tr>
+                    <td>@project.getName()</td>
+                    <td>@project.getCustomer().getName()</td>
+                    <td>@project.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
+                    <td>@project.getEndDate().format(views.Constants.UI_DATE_FORMAT)</td>
+                    <td>
+                        <a class="btn btn-danger" id="delete"
+                           href="@routes.ProjectsController.delete(project.getId())"></a>
+                    </td>
+                    <td>
+                        <a class="btn btn-info" id="edit"
+                           href="@routes.ProjectsController.edit(project.getId())"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br>
+    <a class="btn btn-success" id="add"
+       href="@routes.ProjectsController.create()">Добавить</a>
+}

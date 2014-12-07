@@ -7,6 +7,8 @@ import play.db.jpa.JPA;
  */
 public abstract class BaseEntity {
 
+    private static final String FORMAT_FOR_LIKE = "%%%1$s%%";
+
     public void save() {
         JPA.em().persist(this);
     }
@@ -21,5 +23,9 @@ public abstract class BaseEntity {
 
     public void update() {
         JPA.em().merge(this);
+    }
+
+    protected static String formatForLike(String arg) {
+        return String.format(FORMAT_FOR_LIKE, arg);
     }
 }

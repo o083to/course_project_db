@@ -1,0 +1,10 @@
+@(customerForm: Form[Customer])
+
+@import helper._
+
+@main {
+    @form(routes.CustomersController.save()) {
+        <h1 class="well">Добавить сведения об организации-заказчике</h1>
+        @drawForm(customerForm)
+    }
+}

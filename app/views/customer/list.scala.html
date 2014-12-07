@@ -1,0 +1,35 @@
+@(name: String)
+
+@main {
+    <form action="@routes.CustomersController.customersList(name)" method="GET">
+        <input type="search" id="filter" name="f" value="@name" placeholder="Поиск по имени организации..."><br>
+        <input type="submit" id="filtersubmit" value="OK" class="btn btn-primary">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <td class="name"><b>Название организации</b></td>
+                <td class="name"><b>Город</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @for(customer <- Customer.getList(name)) {
+                <tr>
+                    <td>@customer.getName()</td>
+                    <td>@customer.getLocation()</td>
+                    <td>
+                        <a class="btn btn-danger" id="delete"
+                           href="@routes.CustomersController.delete(customer.getId())"></a>
+                    </td>
+                    <td>
+                        <a class="btn btn-info" id="edit"
+                           href="@routes.CustomersController.edit(customer.getId())"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br>
+    <a class="btn btn-success" id="add"
+       href="@routes.CustomersController.create()">Добавить</a>
+}

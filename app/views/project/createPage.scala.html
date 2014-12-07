@@ -1,0 +1,10 @@
+@(projectForm: Form[Project])
+
+@import helper._
+
+@main {
+    @form(routes.ProjectsController.save()) {
+        <h1 class="well">Добавить сведения о новом проекте</h1>
+        @drawForm(projectForm)
+    }
+}

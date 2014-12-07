@@ -12,11 +12,11 @@
                 @for(salary <- employee.getSalaries()) {
                 <tr>
                     <td>@salary.getValue()</td>
-                    <td>@salary.getStartDate().format("dd MM yyyy")</td>
+                    <td>@salary.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
                     <td>
                         @defining(salary.getEndDate()){ endDate =>
                             @if(endDate != null){
-                                @endDate.format("dd MM yyyy")
+                                @endDate.format(views.Constants.UI_DATE_FORMAT)
                             }
                         }
                     </td>

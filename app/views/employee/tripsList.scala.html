@@ -12,11 +12,11 @@
             @for(trip <- employee.getTrips()) {
             <tr>
                 <td>@trip.getLocation()</td>
-                <td>@trip.getStartDate().format("dd MM yyyy")</td>
+                <td>@trip.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
                 <td>
                     @defining(trip.getEndDate()){ endDate =>
                         @if(endDate != null){
-                            @endDate.format("dd MM yyyy")
+                            @endDate.format(views.Constants.UI_DATE_FORMAT)
                         }
                     }
                 </td>

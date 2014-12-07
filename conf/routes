@@ -62,3 +62,31 @@ GET     /employees/:eid/projects/:pid/delete       controllers.AssignmentsContro
 # Edit Assignment
 GET     /employees/:eid/projects/:pid   controllers.AssignmentsController.edit(eid:Long, pid:Long)
 POST    /employees/:eid/projects/:pid   controllers.AssignmentsController.update(eid:Long, pid:Long)
+
+# Customers
+GET     /customers                      controllers.CustomersController.customersList(f:String ?= "")
+
+# Add Customer
+GET     /customers/new                  controllers.CustomersController.create()
+POST    /customers                      controllers.CustomersController.save()
+
+# Delete Customer
+GET     /customers/:id/delete           controllers.CustomersController.delete(id:Long)
+
+# Edit Customer
+GET     /customers/:id                  controllers.CustomersController.edit(id:Long)
+POST    /customers/:id                  controllers.CustomersController.update(id:Long)
+
+# Projects
+GET     /projects                       controllers.ProjectsController.projectsList(projectFilter:String ?= "", customerFilter:String ?= "")
+
+# Add Project
+GET     /projects/new                  controllers.ProjectsController.create()
+POST    /projects                      controllers.ProjectsController.save()
+
+# Delete Project
+GET     /projects/:id/delete           controllers.ProjectsController.delete(id:Long)
+
+# Edit Project
+GET     /projects/:id                  controllers.ProjectsController.edit(id:Long)
+POST    /projects/:id                  controllers.ProjectsController.update(id:Long)

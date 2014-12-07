@@ -26,6 +26,9 @@ table, th, td {
   border: 2px solid #e3e3e3;
   padding: 12px;
   font-size: 20px;
+}
+
+td {
   background-color: white;
 }
 

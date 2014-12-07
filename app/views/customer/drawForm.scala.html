@@ -1,0 +1,14 @@
+@(customerForm: Form[Customer])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+<fieldset>
+    @inputText(customerForm("name"), '_label -> "Название организации", '_showConstraints -> false)
+    @inputText(customerForm("location"), '_label -> "Город", '_showConstraints -> false)
+</fieldset>
+
+<div class="actions">
+    <input type="submit" value="OK" class="btn btn-primary">
+</div>
