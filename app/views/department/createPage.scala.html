@@ -1,0 +1,20 @@
+@(departmentForm: Form[Department])
+
+@import helper._
+
+@main {
+    <b>Для добавления нового отдела:</b>
+    <ul>
+        <li>Заполните название отдела</li>
+        <li>Добавьте сотрудников</li>
+        <li>Выберите руководителя из числа сотрудников отдела</li>
+    </ul>
+    @form(routes.DepartmentsController.save()) {
+        <fieldset>
+            @inputText(departmentForm("name"), '_label -> "Название отдела", '_showConstraints -> false, '_placeholder -> "Название")
+        </fieldset>
+        <div class="actions">
+            <input type="submit" value="OK" class="btn btn-primary">
+        </div>
+    }
+}

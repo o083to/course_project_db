@@ -1,6 +1,12 @@
 package models;
 
+import play.data.validation.Constraints;
+import play.db.jpa.JPA;
+
 import javax.persistence.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Отдел
@@ -10,16 +16,24 @@ import javax.persistence.*;
 @Entity
 @Table(name = "departments")
 @SequenceGenerator(name = "departments_seq", sequenceName = "departments_seq")
-public class Department {
-
-    private long id;
-    private String name;
-//    private EmployeeEntity manager;
-//    private Department mainDepartment;
+public class Department extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "departments_seq")
     @Column(name = "department_id")
+    private long id;
+
+    @Column(name = "name", length = 250, nullable = false)
+    @Constraints.Required
+    private String name;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id", referencedColumnName = "employee_id")
+    private Employee manager;
+
+    private static final String SQL_GET_DEPARTMENTS = "select * from departments order by name";
+    private static final String SQL_GET_ALL_EMPLOYEES = "select * from employees where department_id = :departmentId";
+
     public long getId() {
         return id;
     }
@@ -28,7 +42,6 @@ public class Department {
         this.id = id;
     }
 
-    @Column(name = "name", length = 100, nullable = false)
     public String getName() {
         return name;
     }
@@ -37,23 +50,30 @@ public class Department {
         this.name = name;
     }
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "manager_id", referencedColumnName = "employee_id")
-//    public EmployeeEntity getManager() {
-//        return manager;
-//    }
-//
-//    public void setManager(EmployeeEntity manager) {
-//        this.manager = manager;
-//    }
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "main_department_id", referencedColumnName = "department_id")
-//    public Department getMainDepartment() {
-//        return mainDepartment;
-//    }
-//
-//    public void setMainDepartment(Department mainDepartment) {
-//        this.mainDepartment = mainDepartment;
-//    }
+    public static List<Department> getList() {
+        return JPA.em().createNativeQuery(SQL_GET_DEPARTMENTS, Department.class)
+                .getResultList();
+    }
+
+    public Employee getManager() {
+        return manager;
+    }
+
+    public void setManager(Employee manager) {
+        this.manager = manager;
+    }
+
+    public static Map<String, String> getEmployeesAsOptions(long departmentId) {
+        LinkedHashMap<String, String> options = new LinkedHashMap<>();
+        List<Employee> employees = JPA.em().createNativeQuery(SQL_GET_ALL_EMPLOYEES, Employee.class)
+                .setParameter("departmentId", departmentId)
+                .getResultList();
+        for (Employee employee : employees) {
+            options.put(
+                    String.valueOf(employee.getId()),
+                    employee.getLastName() + " " + employee.getFirstName()
+            );
+        }
+        return options;
+    }
 }

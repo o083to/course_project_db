@@ -90,3 +90,17 @@ GET     /projects/:id/delete           controllers.ProjectsController.delete(id:
 # Edit Project
 GET     /projects/:id                  controllers.ProjectsController.edit(id:Long)
 POST    /projects/:id                  controllers.ProjectsController.update(id:Long)
+
+# Departments
+GET     /departments                    controllers.DepartmentsController.departmentsList()
+
+# Add department
+GET    /departments/new                 controllers.DepartmentsController.create()
+POST   /departments                     controllers.DepartmentsController.save()
+
+# Edit Department
+GET    /departments/:id                controllers.DepartmentsController.edit(id:Long)
+POST   /departments/:id                controllers.DepartmentsController.update(id:Long)
+
+# Delete Department
+GET    /departments/:id/delete         controllers.DepartmentsController.delete(id:Long)

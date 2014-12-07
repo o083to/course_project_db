@@ -1,0 +1,27 @@
+@(departmentForm: Form[Department], departmentId: Long)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@main {
+    @form(routes.DepartmentsController.update(departmentId)) {
+    <h1 class="well">Редактировать сведения об отделе</h1>
+        <fieldset>
+            @inputText(departmentForm("name"),
+                        '_label -> "Название отдела",
+                        '_showConstraints -> false,
+                        '_placeholder -> "Название"
+            )
+            @select(
+                departmentForm("manager.id"),
+                options(Department.getEmployeesAsOptions(departmentId)),
+                '_label -> "Руководитель",
+                '_showConstraints -> false
+            )
+        </fieldset>
+        <div class="actions">
+            <input type="submit" value="OK" class="btn btn-primary">
+        </div>
+    }
+}
