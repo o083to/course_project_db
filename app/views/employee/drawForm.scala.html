@@ -1,0 +1,18 @@
+@(employeeForm: Form[Employee])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+<fieldset>
+    @inputText(employeeForm("lastName"), '_label -> "Фамилия", '_showConstraints -> false)
+    @inputText(employeeForm("firstName"), '_label -> "Имя", '_showConstraints -> false)
+    @inputText(employeeForm("middleName"), '_label -> "Отчество", '_showConstraints -> false)
+    @select(
+        employeeForm("position"),
+        options(Employee.getPositionsAsOptions),
+        '_label -> "Должность",
+        '_showConstraints -> false
+    )
+    @inputText(employeeForm("hireDate"), '_label -> "Дата приёма", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+</fieldset>

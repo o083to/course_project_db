@@ -1,0 +1,20 @@
+@(employeeForm: Form[Employee], departmentId: Long, employeeId: Long)
+
+@import helper._
+
+@main {
+    @form(routes.EmployeeController.update(departmentId, employeeId)) {
+        <h1 class="well">Изменить сведения о сотруднике</h1>
+        @drawForm(employeeForm)
+        @select(
+            employeeForm("department.id"),
+            options(Department.getDepartmentsAsOptions),
+            '_label -> "Перевести в другой отдел",
+            '_showConstraints -> false
+        )
+        @inputText(employeeForm("terminationDate"), '_label -> "Уволен с ...", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
+        <div class="actions">
+            <input type="submit" value="OK" class="btn btn-primary">
+        </div>
+    }
+}

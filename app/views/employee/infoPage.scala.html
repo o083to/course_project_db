@@ -12,9 +12,11 @@
                         Руководитель
                     </td>
                     <td>
-                        <a href="@routes.EmployeeController.employeeInfo(employee.getManager().getId())">
-                            @employee.getManager().getLastName()
-                        </a>
+                        @if(employee.getManager() != null) {
+                            <a href="@routes.EmployeeController.employeeInfo(employee.getManager().getId())">
+                                @employee.getManager().getLastName()
+                            </a>
+                        }
                     </td>
                 </tr>
                 <tr>
@@ -31,8 +33,21 @@
                 </tr>
                 <tr>
                     <td class="name">Отдел</td>
-                    <td>@employee.getDepartment().getName()</td>
+                    <td>
+                        <a href="@routes.DepartmentsController.employees(employee.getDepartment().getId())">
+                            @employee.getDepartment().getName()
+                        </a>
+                    </td>
                 </tr>
+                @if(employee.getTerminationDate() != null) {
+                    <tr>
+                        <td class="name">Дата увольнения</td>
+                        <td>employee.getTerminationDate().format(views.Constants.UI_DATE_FORMAT)</td>
+                    </tr>
+                }
             </table>
+            <br>
+            <a class="btn btn-info" id="edit"
+               href="@routes.EmployeeController.edit(employee.getDepartment().getId(), employee.getId())"></a>
     }
 }

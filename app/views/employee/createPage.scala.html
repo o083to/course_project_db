@@ -1,0 +1,13 @@
+@(employeeForm: Form[Employee], departmentId: Long)
+
+@import helper._
+
+@main {
+    @form(routes.EmployeeController.save(departmentId)) {
+        <h1 class="well">Добавить сотрудника</h1>
+        @drawForm(employeeForm)
+        <div class="actions">
+            <input type="submit" value="OK" class="btn btn-primary">
+        </div>
+    }
+}

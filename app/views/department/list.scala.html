@@ -11,7 +11,11 @@
         <tbody>
             @for(department <- Department.getList()) {
                 <tr>
-                    <td>@department.getName()</td>
+                    <td>
+                        <a href="@routes.DepartmentsController.employees(department.getId())">
+                            @department.getName()
+                        </a>
+                    </td>
                     <td>
                         @if(department.getManager() != null) {
                             @defining(department.getManager()) { manager =>

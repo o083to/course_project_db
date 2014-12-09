@@ -5,6 +5,7 @@ import play.db.jpa.JPA;
 
 import javax.persistence.*;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,11 @@ public class Department extends BaseEntity {
     private Employee manager;
 
     private static final String SQL_GET_DEPARTMENTS = "select * from departments order by name";
-    private static final String SQL_GET_ALL_EMPLOYEES = "select * from employees where department_id = :departmentId";
+    private static final String SQL_GET_ALL_EMPLOYEES = "select * from employees where department_id = :departmentId \n" +
+                                                        "and upper(last_name) like upper(:lastName) \n" +
+                                                        "and upper(first_name) like upper(:firstName) \n" +
+                                                        "and termination_date is null \n" +
+                                                        "order by last_name";
 
     public long getId() {
         return id;
@@ -55,6 +60,16 @@ public class Department extends BaseEntity {
                 .getResultList();
     }
 
+    public static Map<String, String> getDepartmentsAsOptions() {
+        Map<String, String> options = new LinkedHashMap<>();
+        List<Department> departments = JPA.em().createNativeQuery(SQL_GET_DEPARTMENTS, Department.class)
+                .getResultList();
+        for (Department department: departments) {
+            options.put(String.valueOf(department.getId()), department.getName());
+        }
+        return options;
+    }
+
     public Employee getManager() {
         return manager;
     }
@@ -67,6 +82,8 @@ public class Department extends BaseEntity {
         LinkedHashMap<String, String> options = new LinkedHashMap<>();
         List<Employee> employees = JPA.em().createNativeQuery(SQL_GET_ALL_EMPLOYEES, Employee.class)
                 .setParameter("departmentId", departmentId)
+                .setParameter("lastName", formatForLike(""))
+                .setParameter("firstName", formatForLike(""))
                 .getResultList();
         for (Employee employee : employees) {
             options.put(
@@ -75,5 +92,13 @@ public class Department extends BaseEntity {
             );
         }
         return options;
+    }
+
+    public List<Employee> getEmployees(String firstName, String lastName) {
+        return JPA.em().createNativeQuery(SQL_GET_ALL_EMPLOYEES, Employee.class)
+                .setParameter("departmentId", id)
+                .setParameter("lastName", formatForLike(lastName))
+                .setParameter("firstName", formatForLike(firstName))
+                .getResultList();
     }
 }

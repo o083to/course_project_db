@@ -104,3 +104,14 @@ POST   /departments/:id                controllers.DepartmentsController.update(
 
 # Delete Department
 GET    /departments/:id/delete         controllers.DepartmentsController.delete(id:Long)
+
+# Employees of Department
+GET    /departments/:id/employees      controllers.DepartmentsController.employees(id:Long, lnFilter:String ?= "", fnFilter:String ?= "")
+
+# Add Employee
+GET    /departments/:id/employees/new   controllers.EmployeeController.create(id:Long)
+POST   /departments/:id/employees       controllers.EmployeeController.save(id:Long)
+
+# Edit Employee
+GET    /departments/:did/employees/:eid     controllers.EmployeeController.edit(did:Long, eid:Long)
+POST   /departments/:did/employees/:eid     controllers.EmployeeController.update(did:Long, eid:Long)

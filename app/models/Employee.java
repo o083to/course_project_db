@@ -2,13 +2,17 @@ package models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import play.data.format.Formats;
+import play.data.validation.Constraints;
 import play.db.jpa.JPA;
 
 /**
@@ -27,18 +31,28 @@ public class Employee extends BaseEntity {
     private long id;
 
     @Column(name = "last_name", length = 50, nullable = false)
+    @Constraints.Required
     private String lastName;
 
     @Column(name = "first_name", length = 50, nullable = false)
+    @Constraints.Required
     private String firstName;
 
     @Column(name = "middle_name", length = 50, nullable = true)
+    @Constraints.Required
     private String middleName;
 
     @Column(name = "hire_date", nullable = false)
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-yy")
     private Date hireDate;
 
-    @Column(name = "position", length = 50, nullable = false)
+    @Column(name = "termination_date", nullable = true)
+    @Formats.DateTime(pattern="dd-MM-yy")
+    private Date terminationDate;
+
+    @Column(name = "position", length = 250, nullable = false)
+    @Constraints.Required
     private String position;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,6 +71,19 @@ public class Employee extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee")
     private List<ProjectAssignment> assignments;
 
+    private static final Map<String, String> POSITIONS_LIST = new LinkedHashMap<String, String>(){{
+        put("Руководитель проекта", "Руководитель проекта");
+        put("Руководитель группы разработки", "Руководитель группы разработки");
+        put("Старший разработчик", "Старший разработчик");
+        put("Разработчик", "Разработчик");
+        put("Младший разработчик", "Младший разработчик");
+        put("Аналитик", "Аналитик");
+        put("Руководитель группы тестирования", "Руководитель группы тестирования");
+        put("Старший тестировщик", "Старший тестировщик");
+        put("Тестировщик", "Тестировщик");
+        put("Младший тестировщик", "Младший тестировщик");
+    }};
+
     private static final PeriodFormatter PERIOD_FORMATTER = new PeriodFormatterBuilder()
             .appendPrefix("Лет: ")
             .appendYears()
@@ -68,7 +95,7 @@ public class Employee extends BaseEntity {
 
     private static final String SQL_GET_MANAGER_ID =
             "select\n" +
-               "m.employee_id\n" +
+               "m.*\n" +
             "from\n" +
                "employees e\n" +
                ",employees m\n" +
@@ -77,6 +104,8 @@ public class Employee extends BaseEntity {
                "e.employee_id = :employee_id\n" +
                "and d.department_id = e.department_id\n" +
                "and m.employee_id = d.manager_id";
+
+    private static final String FIRE_EMPLOYEE = "begin fire_employee(:fireDate, :empId); end;";
 
     @Transient
     private String experienceStr;
@@ -93,24 +122,56 @@ public class Employee extends BaseEntity {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getMiddleName() {
         return middleName;
     }
 
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public Date getHireDate() {
         return hireDate;
+    }
+
+    public void setHireDate(Date hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public Date getTerminationDate() {
+        return terminationDate;
+    }
+
+    public void setTerminationDate(Date terminationDate) {
+        this.terminationDate = terminationDate;
     }
 
     public String getPosition() {
         return position;
     }
 
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     public Department getDepartment() {
         return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public List<Salary> getSalaries() {
@@ -141,8 +202,23 @@ public class Employee extends BaseEntity {
     }
 
     public Employee getManager() {
-        Query query = JPA.em().createNativeQuery(SQL_GET_MANAGER_ID, Employee.class);
-        query.setParameter("employee_id", id);
-        return (Employee)query.getSingleResult();
+        try {
+            Query query = JPA.em().createNativeQuery(SQL_GET_MANAGER_ID, Employee.class);
+            query.setParameter("employee_id", id);
+            return (Employee)query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public static Map<String, String> getPositionsAsOptions() {
+        return POSITIONS_LIST;
+    }
+
+    public void fire(Date fireDate) {
+        Query query = JPA.em().createNativeQuery(FIRE_EMPLOYEE)
+                .setParameter("empId", id)
+                .setParameter("fireDate", fireDate);
+        query.executeUpdate();
     }
 }

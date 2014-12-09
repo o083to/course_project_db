@@ -1,0 +1,43 @@
+@(department: Department, lastName: String, firstName: String)
+
+@main {
+    <div class="well"><b>@department.getName()</b></div>
+    <form action="@routes.DepartmentsController.employees(department.getId(), lastName, firstName)" method="GET">
+        <input type="search" id="pf" name="lnFilter" value="@lastName"
+               placeholder="Фамилия ..."><br>
+        <input type="search" id="fn" name="fnFilter" value="@firstName"
+               placeholder="Имя ..."><br>
+        <input type="submit" id="fs" value="OK" class="btn btn-primary">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <td class="name"><b>ФИО</b></td>
+                <td class="name"><b>Должность</b></td>
+                <td class="name"><b>Стаж</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @for(employee <- department.getEmployees(firstName, lastName)) {
+                <tr>
+                    <td>
+                        <a href="@routes.EmployeeController.employeeInfo(employee.getId())">
+                            @employee.getLastName()
+                            @employee.getFirstName()
+                            @employee.getMiddleName()
+                        </a>
+                    </td>
+                    <td>
+                        @employee.getPosition()
+                    </td>
+                    <td>
+                        @employee.getExperienceStr()
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br>
+    <a class="btn btn-success" id="add"
+       href="@routes.EmployeeController.create(department.getId())">Добавить</a>
+}

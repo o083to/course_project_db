@@ -86,4 +86,20 @@ public class DepartmentsController extends Controller {
         department.update();
         return goHome();
     }
+
+    @Transactional(readOnly = true)
+    public static Result employees(long departmentId, String lastName, String firstName) {
+        Department department = BaseEntity.findById(Department.class, departmentId);
+        if (department == null) {
+            return badRequest();
+        } else {
+            return ok(
+                    employeesList.render(
+                            department,
+                            lastName,
+                            firstName
+                    )
+            );
+        }
+    }
 }
