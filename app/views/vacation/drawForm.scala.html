@@ -9,7 +9,7 @@
     @inputText(vacationForm("endDate"), '_label -> "Последний день отпуска", '_showConstraints -> false, '_help -> "ДД-MM-ГГ")
     @select(
         vacationForm("reason"),
-        options(("очередной", "очередной"), ("внеочередной", "внеочередной")),
+        options(Vacation.getReasonsAsOptions),
         '_label -> "Вид",
         '_showConstraints -> false)
 </fieldset>

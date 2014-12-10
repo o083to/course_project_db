@@ -1,45 +1,47 @@
 @import helper._
 
 @main {
-    <table>
-        <thead>
-            <tr>
-                <td class="name"><b>Название отдела</b></td>
-                <td class="name"><b>Руководитель</b></td>
-            </tr>
-        </thead>
-        <tbody>
-            @for(department <- Department.getList()) {
+    @mainNavigation("departments") {
+        <table>
+            <thead>
                 <tr>
-                    <td>
-                        <a href="@routes.DepartmentsController.employees(department.getId())">
-                            @department.getName()
-                        </a>
-                    </td>
-                    <td>
-                        @if(department.getManager() != null) {
-                            @defining(department.getManager()) { manager =>
-                                <a href="@routes.EmployeeController.employeeInfo(manager.getId())">
-                                    @manager.getLastName()
-                                    @manager.getFirstName()
-                                    @manager.getMiddleName()
-                                </a>
-                            }
-                        }
-                    </td>
-                    <td>
-                        <a class="btn btn-danger" id="delete"
-                           href="@routes.DepartmentsController.delete(department.getId())"></a>
-                    </td>
-                    <td>
-                        <a class="btn btn-info" id="edit"
-                           href="@routes.DepartmentsController.edit(department.getId())"></a>
-                    </td>
+                    <td class="name"><b>Название отдела</b></td>
+                    <td class="name"><b>Руководитель</b></td>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <br>
-    <a class="btn btn-success" id="add"
-       href="@routes.DepartmentsController.create()">Добавить</a>
+            </thead>
+            <tbody>
+                @for(department <- Department.getList()) {
+                    <tr>
+                        <td>
+                            <a href="@routes.DepartmentsController.employees(department.getId())">
+                                @department.getName()
+                            </a>
+                        </td>
+                        <td>
+                            @if(department.getManager() != null) {
+                                @defining(department.getManager()) { manager =>
+                                    <a href="@routes.EmployeeController.employeeInfo(manager.getId())">
+                                        @manager.getLastName()
+                                        @manager.getFirstName()
+                                        @manager.getMiddleName()
+                                    </a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" id="delete"
+                               href="@routes.DepartmentsController.delete(department.getId())"></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-info" id="edit"
+                               href="@routes.DepartmentsController.edit(department.getId())"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br>
+        <a class="btn btn-success" id="add"
+           href="@routes.DepartmentsController.create()">Добавить</a>
+    }
 }

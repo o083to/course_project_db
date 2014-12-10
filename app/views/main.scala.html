@@ -10,6 +10,10 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     </head>
     <body style="background-image:url(@routes.Assets.at("images/rak.jpg"))">
+        <div align="right">
+            <a href="@routes.DepartmentsController.departmentsList()"><img src="@routes.Assets.at("images/home.png")"
+                border="0" alt="Список отделов..."></a>
+        </div>
         <section id="main">
             @content
         </section>

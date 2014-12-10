@@ -5,6 +5,8 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Отпуск
@@ -35,10 +37,18 @@ public class Vacation extends BaseEntity {
     @Formats.DateTime(pattern="dd-MM-yy")
     private Date endDate;
 
-    // todo: Enum?
     @Column(name = "reason", length = 50, nullable = false)
     @Constraints.Required
     private String reason;
+
+    private static final Map<String, String> REASONS = new LinkedHashMap<String, String>(){{
+        put("Ежегодный оплачиваемый отпуск", "Ежегодный оплачиваемый отпуск");
+        put("Дополнительный отпуск", "Дополнительный отпуск");
+        put("Оплачиваемый учебный отпуск", "Оплачиваемый учебный отпуск");
+        put("Неоплачиваемый учебный отпуск", "Неоплачиваемый учебный отпуск");
+        put("Отпуск по беременности и родам", "Отпуск по беременности и родам");
+        put("Отпуск по уходу за ребёнком", "Отпуск по уходу за ребёнком");
+    }};
 
     public long getId() {
         return id;
@@ -78,5 +88,9 @@ public class Vacation extends BaseEntity {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public static Map<String, String> getReasonsAsOptions() {
+        return REASONS;
     }
 }

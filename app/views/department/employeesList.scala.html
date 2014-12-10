@@ -1,7 +1,10 @@
 @(department: Department, lastName: String, firstName: String)
 
 @main {
-    <div class="well"><b>@department.getName()</b></div>
+    <div class="well">
+        <a href="@routes.DepartmentsController.departmentsList()"><b>Все отделы \</b></a>
+        <b>@department.getName()</b>
+    </div>
     <form action="@routes.DepartmentsController.employees(department.getId(), lastName, firstName)" method="GET">
         <input type="search" id="pf" name="lnFilter" value="@lastName"
                placeholder="Фамилия ..."><br>
