@@ -47,10 +47,6 @@ public class Employee extends BaseEntity {
     @Formats.DateTime(pattern="dd-MM-yy")
     private Date hireDate;
 
-    @Column(name = "termination_date", nullable = true)
-    @Formats.DateTime(pattern="dd-MM-yy")
-    private Date terminationDate;
-
     @Column(name = "position", length = 250, nullable = false)
     @Constraints.Required
     private String position;
@@ -150,14 +146,6 @@ public class Employee extends BaseEntity {
         this.hireDate = hireDate;
     }
 
-    public Date getTerminationDate() {
-        return terminationDate;
-    }
-
-    public void setTerminationDate(Date terminationDate) {
-        this.terminationDate = terminationDate;
-    }
-
     public String getPosition() {
         return position;
     }
@@ -213,12 +201,5 @@ public class Employee extends BaseEntity {
 
     public static Map<String, String> getPositionsAsOptions() {
         return POSITIONS_LIST;
-    }
-
-    public void fire(Date fireDate) {
-        Query query = JPA.em().createNativeQuery(FIRE_EMPLOYEE)
-                .setParameter("empId", id)
-                .setParameter("fireDate", fireDate);
-        query.executeUpdate();
     }
 }

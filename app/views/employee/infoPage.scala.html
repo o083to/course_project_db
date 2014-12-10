@@ -39,12 +39,6 @@
                         </a>
                     </td>
                 </tr>
-                @if(employee.getTerminationDate() != null) {
-                    <tr>
-                        <td class="name">Дата увольнения</td>
-                        <td>employee.getTerminationDate().format(views.Constants.UI_DATE_FORMAT)</td>
-                    </tr>
-                }
             </table>
             <br>
             <a class="btn btn-info" id="edit"

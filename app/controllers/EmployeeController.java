@@ -119,17 +119,12 @@ public class EmployeeController extends Controller {
             );
         }
         Employee employee = employeeForm.get();
-        if (employee.getTerminationDate() != null) {
-            employee.fire(employee.getTerminationDate());
-            return goHome(departmentId);
-        } else {
-            Department department = Department.findById(Department.class, departmentId);
-            employee.setDepartment(department);
-            employee.setId(employeeId);
-            employee.update();
-            return redirect(
-                    routes.EmployeeController.employeeInfo(employeeId)
-            );
-        }
+        Department department = Department.findById(Department.class, departmentId);
+        employee.setDepartment(department);
+        employee.setId(employeeId);
+        employee.update();
+        return redirect(
+                routes.EmployeeController.employeeInfo(employeeId)
+        );
     }
 }

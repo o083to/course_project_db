@@ -91,4 +91,16 @@ public class ProjectsController extends Controller {
         project.update();
         return goHome();
     }
+
+    @Transactional(readOnly = true)
+    public static Result employeesList(long projectId) {
+        Project project = BaseEntity.findById(Project.class, projectId);
+        if (project == null) {
+            return badRequest();
+        } else {
+            return ok(
+                    employees.render(project)
+            );
+        }
+    }
 }

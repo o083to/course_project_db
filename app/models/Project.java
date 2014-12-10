@@ -55,6 +55,14 @@ public class Project extends BaseEntity {
                                                                 "and upper(c.name) like upper(:customerName) \n" +
                                                                 "order by p.start_date desc";
 
+    private static final String SQL_GET_EMPLOYEES =
+            "select e.*\n" +
+            "from employees e\n" +
+            ",project_assignments pa\n" +
+            "where\n" +
+            "pa.project_id = :projectId\n" +
+            "and pa.employee_id = e.employee_id";
+
     public long getId() {
         return id;
     }
@@ -113,6 +121,13 @@ public class Project extends BaseEntity {
         return JPA.em().createNativeQuery(SQL_GET_PROJECTS_WITH_FILTER, Project.class)
                 .setParameter("projectName", formatForLike(projectName))
                 .setParameter("customerName", formatForLike(customerName))
+                .getResultList();
+    }
+
+    // todo: show assignments
+    public List<Employee> getEmployees() {
+        return JPA.em().createNativeQuery(SQL_GET_EMPLOYEES, Employee.class)
+                .setParameter("projectId", id)
                 .getResultList();
     }
 }

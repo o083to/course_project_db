@@ -1,0 +1,25 @@
+@(project: Project)
+
+@main {
+    <div class="well"><b>@project.getName()</b></div>
+    <table>
+        <thead>
+            <tr>
+                <td class="name"><b>ФИО</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @for(employee <- project.getEmployees()) {
+                <tr>
+                    <td>
+                        <a href="@routes.EmployeeController.employeeInfo(employee.getId())">
+                            @employee.getLastName()
+                            @employee.getFirstName()
+                            @employee.getMiddleName()
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

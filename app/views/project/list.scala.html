@@ -20,7 +20,11 @@
         <tbody>
             @for(project <- Project.getList(projectName, customerName)) {
                 <tr>
-                    <td>@project.getName()</td>
+                    <td>
+                        <a href="@routes.ProjectsController.employeesList(project.getId())">
+                            @project.getName()
+                        </a>
+                    </td>
                     <td>@project.getCustomer().getName()</td>
                     <td>@project.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
                     <td>@project.getEndDate().format(views.Constants.UI_DATE_FORMAT)</td>
