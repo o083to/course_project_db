@@ -2,6 +2,11 @@
 
 @main {
     @navigation(employee.getId(), "projects") {
+        <div class="well">
+            <b>
+                @employee.getLastName() @employee.getFirstName() @employee.getMiddleName()
+            </b>
+        </div>
         <table>
             <thead>
                 <td class="name"><b>Название</b></td>

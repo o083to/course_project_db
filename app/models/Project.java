@@ -43,6 +43,10 @@ public class Project extends BaseEntity {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @Column(name = "cost", nullable = false)
+    @Constraints.Required
+    private long cost;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
     private List<ProjectAssignment> assignments;
 
@@ -105,6 +109,14 @@ public class Project extends BaseEntity {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public long getCost() {
+        return cost;
+    }
+
+    public void setCost(long cost) {
+        this.cost = cost;
     }
 
     public static Map<String, String> getAllProjectsAsOptions() {

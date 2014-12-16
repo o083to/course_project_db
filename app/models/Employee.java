@@ -38,7 +38,7 @@ public class Employee extends BaseEntity {
     @Constraints.Required
     private String firstName;
 
-    @Column(name = "middle_name", length = 50, nullable = true)
+    @Column(name = "middle_name", length = 50, nullable = false)
     @Constraints.Required
     private String middleName;
 

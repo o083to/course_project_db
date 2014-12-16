@@ -37,12 +37,13 @@ public class Vacation extends BaseEntity {
     @Formats.DateTime(pattern="dd-MM-yy")
     private Date endDate;
 
-    @Column(name = "reason", length = 50, nullable = false)
+    @Column(name = "reason", length = 250, nullable = false)
     @Constraints.Required
     private String reason;
 
     private static final Map<String, String> REASONS = new LinkedHashMap<String, String>(){{
         put("Ежегодный оплачиваемый отпуск", "Ежегодный оплачиваемый отпуск");
+        put("Отпуск без сохранения заработной платы", "Отпуск без сохранения заработной платы");
         put("Дополнительный отпуск", "Дополнительный отпуск");
         put("Оплачиваемый учебный отпуск", "Оплачиваемый учебный отпуск");
         put("Неоплачиваемый учебный отпуск", "Неоплачиваемый учебный отпуск");
