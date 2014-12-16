@@ -16,6 +16,8 @@ import static play.data.Form.form;
 /**
  * Created by anna on 07.12.14.
  */
+
+@Security.Authenticated(Authorization.class)
 public class ProjectsController extends Controller {
 
     public static Result goHome() {

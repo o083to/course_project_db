@@ -17,6 +17,8 @@ import static play.data.Form.form;
 /**
  * Created by anna on 30.11.14.
  */
+
+@Security.Authenticated(Authorization.class)
 public class TripsController extends Controller {
 
     public static Result goHome(long employeeId) {

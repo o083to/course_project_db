@@ -11,8 +11,18 @@
     </head>
     <body style="background-image:url(@routes.Assets.at("images/rak.jpg"))">
         <div align="right">
-            <a href="@routes.DepartmentsController.departmentsList()"><img src="@routes.Assets.at("images/home.png")"
-                border="0" alt="Список отделов..."></a>
+            <a href="@routes.DepartmentsController.departmentsList()">
+                <img src="@routes.Assets.at("images/home.png")"
+                border="0" alt="Список отделов...">
+            </a>
+            <a href="@routes.Application.signup()">
+                <img src="@routes.Assets.at("images/add_user.png")"
+                border="0" alt="Добавить пользователя в систему...">
+            </a>
+            <a href="@routes.Application.logout()">
+                <img src="@routes.Assets.at("images/exit.png")"
+                border="0" alt="Выйти из системы...">
+            </a>
         </div>
         <section id="main">
             @content

@@ -12,16 +12,13 @@ import views.html.employee.*;
 
 import static play.data.Form.form;
 
+@Security.Authenticated(Authorization.class)
 public class EmployeeController extends Controller {
 
     public static Result goHome(long departmentId) {
         return redirect(
                 routes.DepartmentsController.employees(departmentId, "", "")
         );
-    }
-
-    public static Result index() {
-        return ok(index.render("Your new application is ready."));
     }
 
     @Transactional(readOnly=true)

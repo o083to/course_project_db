@@ -135,3 +135,8 @@ start with 1000
 increment by 1
 nocache
 nocycle;
+
+create table users(
+  login varchar2(100),
+  password varchar2(500)
+);

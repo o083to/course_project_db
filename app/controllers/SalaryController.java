@@ -19,6 +19,8 @@ import java.util.Calendar;
 /**
  * Created by anna on 23.11.14.
  */
+
+@Security.Authenticated(Authorization.class)
 public class SalaryController extends Controller {
 
     public static Result goHome(long employeeId) {

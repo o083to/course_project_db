@@ -18,6 +18,8 @@ import static play.data.Form.form;
 /**
  * Created by anna on 04.12.14.
  */
+
+@Security.Authenticated(Authorization.class)
 public class AssignmentsController extends Controller {
 
     public static Result goHome(long employeeId) {
