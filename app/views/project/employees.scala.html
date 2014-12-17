@@ -1,22 +1,56 @@
 @(project: Project)
 
 @main {
-    <div class="well"><b>@project.getName()</b></div>
+    <div class="well">
+        <a href="@routes.ProjectsController.projectsList()"><b>Проекты \</b></a>
+        <b>@project.getName()</b>
+    </div>
+    <table>
+        <tr>
+            <td class="name">Стоимость</td>
+            <td>@project.getCost() рублей</td>
+        </tr>
+        <tr>
+            <td class="name">Начало</td>
+            <td>@project.getStartDate().format(views.Constants.UI_DATE_FORMAT)</td>
+        </tr>
+        <tr>
+            <td class="name">Конец</td>
+            <td>@project.getEndDate().format(views.Constants.UI_DATE_FORMAT)</td>
+        </tr>
+        <tr>
+            <td class="name">Затраты на сотрудников</td>
+            <td>@project.getEmployeesCost() рублей</td>
+        </tr>
+    </table>
+    <br>
     <table>
         <thead>
             <tr>
-                <td class="name"><b>ФИО</b></td>
+                <td class="name"><b>Сотрудник</b></td>
+                <td class="name"><b>Роль</b></td>
+                <td class="name"><b>Первый день на проекте</b></td>
+                <td class="name"><b>Последний день на проекте</b></td>
             </tr>
         </thead>
         <tbody>
-            @for(employee <- project.getEmployees()) {
+            @for(assignment <- project.getAssignments()) {
                 <tr>
                     <td>
-                        <a href="@routes.EmployeeController.employeeInfo(employee.getId())">
-                            @employee.getLastName()
-                            @employee.getFirstName()
-                            @employee.getMiddleName()
+                        <a href="@routes.EmployeeController.employeeInfo(assignment.getEmployee().getId())">
+                            @assignment.getEmployee().getLastName()
+                            @assignment.getEmployee().getFirstName()
+                            @assignment.getEmployee().getMiddleName()
                         </a>
+                    </td>
+                    <td>
+                        @assignment.getRole()
+                    </td>
+                    <td>
+                        @assignment.getStartDate().format(views.Constants.UI_DATE_FORMAT)
+                    </td>
+                    <td>
+                        @assignment.getEndDate().format(views.Constants.UI_DATE_FORMAT)
                     </td>
                 </tr>
             }

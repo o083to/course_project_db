@@ -2,9 +2,15 @@ package models;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints;
+import play.db.DB;
 import play.db.jpa.JPA;
 
 import javax.persistence.*;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,14 +64,8 @@ public class Project extends BaseEntity {
                                                                 "and upper(p.name) like upper(:projectName) \n" +
                                                                 "and upper(c.name) like upper(:customerName) \n" +
                                                                 "order by p.start_date desc";
+    private static final String SQL_GET_EMPLOYEES_COST = "select project_cost(?) cost from dual";
 
-    private static final String SQL_GET_EMPLOYEES =
-            "select e.*\n" +
-            "from employees e\n" +
-            ",project_assignments pa\n" +
-            "where\n" +
-            "pa.project_id = :projectId\n" +
-            "and pa.employee_id = e.employee_id";
 
     public long getId() {
         return id;
@@ -136,10 +136,20 @@ public class Project extends BaseEntity {
                 .getResultList();
     }
 
-    // todo: show assignments
-    public List<Employee> getEmployees() {
-        return JPA.em().createNativeQuery(SQL_GET_EMPLOYEES, Employee.class)
-                .setParameter("projectId", id)
-                .getResultList();
+    public long getEmployeesCost() {
+        DataSource dataSource = DB.getDataSource();
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement query = connection.prepareStatement(SQL_GET_EMPLOYEES_COST)
+                ) {
+            query.setLong(1, id);
+            ResultSet result = query.executeQuery();
+            if (result.next()) {
+                return result.getLong("cost");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

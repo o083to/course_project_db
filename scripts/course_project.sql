@@ -140,3 +140,89 @@ create table users(
   login varchar2(100),
   password varchar2(500)
 );
+
+create table holydays(
+  day date
+);
+
+create or replace function working_days_count(first_day date, last_day date)
+  return number
+  is cnt number;
+begin
+  with days as (
+    select
+      first_day + level - 1 day
+    from
+      dual
+    connect by
+      level <= (last_day - first_day + 1)
+  )
+  select
+    count(*)
+  into cnt
+  from
+    days
+  where
+    to_char(day, 'D') between 2 and 6
+    and not exists (
+              select
+                day
+              from
+                holydays h
+              where h.day = days.day
+            )
+  ;
+  return(cnt);
+end;
+
+create or replace function project_cost(projectId number)
+  return number
+  is price number;
+begin
+  with periods as (
+    select
+      s.value
+      ,greatest(s.start_date, pa.start_date) start_date
+      ,least(nvl(s.end_date, pa.end_date), pa.end_date) end_date
+      ,e.last_name
+    from
+      project_assignments pa
+      ,employees e
+      ,salary s
+    where
+      pa.project_id = projectId
+      and pa.employee_id = e.employee_id
+      and s.employee_id = e.employee_id
+      and (
+        s.start_date between pa.start_date and pa.end_date
+          or
+        s.end_date between pa.start_date and pa.end_date
+      )
+  )
+  ,months as (
+    select distinct
+      value
+      ,decode(level, 1, start_date, trunc(add_months(start_date, level - 1), 'mm')) start_date
+      ,case
+          when add_months(start_date, level) >= end_date then end_date
+          else last_day(add_months(start_date, level - 1))
+      end end_date
+    from periods
+    connect by add_months(start_date, level - 1) < end_date
+  )
+  ,month_values as (
+    select
+      round(value / working_days_count(trunc(start_date, 'mm'), last_day(end_date)))
+        *
+      working_days_count(start_date, end_date) value
+    from
+      months
+  )
+  select
+    sum(value)
+  into price
+  from
+    month_values
+  ;
+  return(price);
+end;
