@@ -6,12 +6,20 @@ import play.data.*;
 import static play.data.Form.*;
 import utils.CommonUtils;
 import views.html.index;
+import views.html.lol;
 import views.html.security.*;
 
 public class Application extends Controller {
 
 	public static Result index() {
 		return ok(index.render());
+	}
+
+	@Security.Authenticated(Authorization.class)
+	public static Result help() {
+		return ok(
+				lol.render()
+		);
 	}
 
 	@Security.Authenticated(Authorization.class)
