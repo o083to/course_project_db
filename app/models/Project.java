@@ -66,6 +66,7 @@ public class Project extends BaseEntity {
                                                                 "order by p.start_date desc";
     private static final String SQL_GET_EMPLOYEES_COST = "select project_cost(?) cost from dual";
 
+    private static final String SQL_GET_EXPENSES = "select sum(cost) expenses from projects";
 
     public long getId() {
         return id;
@@ -151,5 +152,29 @@ public class Project extends BaseEntity {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static long getExpenses() {
+        DataSource dataSource = DB.getDataSource();
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement query = connection.prepareStatement(SQL_GET_EXPENSES)
+        ) {
+            ResultSet result = query.executeQuery();
+            if (result.next()) {
+                return result.getLong("expenses");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static long getEmployeeExpenses() {
+        long exp = 0;
+        for (Project project: getList("", "")) {
+            exp += project.getEmployeesCost();
+        }
+        return exp;
     }
 }

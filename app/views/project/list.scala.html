@@ -10,6 +10,21 @@
             <input type="submit" id="fs" value="OK" class="btn btn-primary">
         </form>
         <table>
+            <tr>
+                <td class="name">Получили от заказчиков</td>
+                <td>@Project.getExpenses()</td>
+            </tr>
+            <tr>
+                <td class="name">Потратили на сотрудников</td>
+                <td>@Project.getEmployeeExpenses()</td>
+            </tr>
+            <tr>
+                <td class="name">Разница</td>
+                <td>@(Project.getExpenses() - Project.getEmployeeExpenses())</td>
+            </tr>
+        </table>
+        <br>
+        <table>
             <thead>
                 <tr>
                     <td class="name"><b>Название проекта</b></td>
