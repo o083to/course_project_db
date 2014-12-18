@@ -36,6 +36,7 @@ public class Department extends BaseEntity {
     private static final String SQL_GET_ALL_EMPLOYEES = "select * from employees where department_id = :departmentId \n" +
                                                         "and upper(last_name) like upper(:lastName) \n" +
                                                         "and upper(first_name) like upper(:firstName) \n" +
+                                                        "and termination_date is null \n" +
                                                         "order by last_name";
 
     public long getId() {

@@ -226,3 +226,9 @@ begin
   ;
   return(price);
 end;
+
+create or replace procedure terminate(employeeId number) as
+begin
+  update employees set termination_date = sysdate where employee_id = employeeId;
+  update salary set end_date = sysdate where employee_id = employeeId;
+end;

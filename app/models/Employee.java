@@ -101,7 +101,7 @@ public class Employee extends BaseEntity {
                "and d.department_id = e.department_id\n" +
                "and m.employee_id = d.manager_id";
 
-    private static final String FIRE_EMPLOYEE = "begin fire_employee(:fireDate, :empId); end;";
+    private static final String FIRE_EMPLOYEE = "begin terminate(:empId); end;";
 
     @Transient
     private String experienceStr;
@@ -201,5 +201,11 @@ public class Employee extends BaseEntity {
 
     public static Map<String, String> getPositionsAsOptions() {
         return POSITIONS_LIST;
+    }
+
+    public void terminate() {
+        JPA.em().createNativeQuery(FIRE_EMPLOYEE)
+                .setParameter("empId", id)
+                .executeUpdate();
     }
 }

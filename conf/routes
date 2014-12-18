@@ -119,6 +119,9 @@ POST   /departments/:id/employees       controllers.EmployeeController.save(id:L
 GET    /departments/:did/employees/:eid     controllers.EmployeeController.edit(did:Long, eid:Long)
 POST   /departments/:did/employees/:eid     controllers.EmployeeController.update(did:Long, eid:Long)
 
+# Delete Employee
+GET    /departments/:did/employees/:eid/delete     controllers.EmployeeController.delete(did:Long, eid:Long)
+
 # Project Employees
 GET     /projects/:id/employees             controllers.ProjectsController.employeesList(id: Long)
 

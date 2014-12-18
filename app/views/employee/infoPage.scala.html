@@ -43,5 +43,7 @@
             <br>
             <a class="btn btn-info" id="edit"
                href="@routes.EmployeeController.edit(employee.getDepartment().getId(), employee.getId())"></a>
+            <a class="btn btn-danger" id="delete"
+               href="@routes.EmployeeController.delete(employee.getDepartment().getId(), employee.getId())"></a>
     }
 }

@@ -124,4 +124,13 @@ public class EmployeeController extends Controller {
                 routes.EmployeeController.employeeInfo(employeeId)
         );
     }
+
+    @Transactional
+    public static Result delete(long departmentId, long employeeId) {
+        Employee employee = BaseEntity.findById(Employee.class, employeeId);
+        if (employee != null) {
+            employee.terminate();
+        }
+        return goHome(departmentId);
+    }
 }
